@@ -1,0 +1,14 @@
+bumpversion
+wheel
+watchdog
+flake8
+tox
+coverage
+Sphinx
+cryptography
+PyYAML
+mock
+pytest
+python-dotenv
+
+
