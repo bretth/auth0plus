@@ -19,6 +19,7 @@ help:
 	@echo "lint - check style with flake8"
 	@echo "test - run tests quickly with the default Python"
 	@echo "test-all - run tests on every Python version with tox"
+	@echo "doctests - run the readme doctests"
 	@echo "coverage - check code coverage quickly with the default Python"
 	@echo "docs - generate Sphinx HTML documentation, including API docs"
 	@echo "release - package and upload a release"
@@ -53,6 +54,10 @@ test:
 
 test-all:
 	tox
+
+doctests:
+	python readme_doctest_setup.py
+	python -m doctest -o FAIL_FAST -o ELLIPSIS -v README.rst
 
 coverage:
 	coverage run --source auth0plus setup.py test
