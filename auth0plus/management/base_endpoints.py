@@ -1,4 +1,5 @@
 from six import u
+from six.moves.urllib.parse import quote
 
 from ..exceptions import UnimplementedException
 from ..settings import AUTH0_PER_PAGE
@@ -73,10 +74,15 @@ class BaseEndPoint(object):
     def get_id(self):
         return getattr(self, 'id', None)
     
-    def as_dict(self):
-        return {
+    def as_dict(self, updatable_only=False):
+        public_dict = {
             key: value for key, value in self.__dict__.items()
             if key[0] != '_' and key not in self._private_attrs}
+        if updatable_only and isinstance(self._updatable, list):
+            public_dict = {
+                key: value for key, value in public_dict.items()
+                if key in self._updatable}
+        return public_dict
 
 
 class CreatableMixin(object):
@@ -156,7 +162,7 @@ class QueryableMixin(object):
 
 def _delete(self):
     """Instance delete method"""
-    assert self.id is not None, (
+    assert self.get_id() is not None, (
         "%s object can't be deleted because its primary id attribute is set to None." %
         self.__class__.__name__
     )

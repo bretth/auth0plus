@@ -121,7 +121,12 @@ class User(QueryableMixin, CRUDEndPoint):
     def password(self, value):
         """Set a password to be changed or created"""
         self._password = value
- 
+
+    @password.deleter
+    def password(self):
+        self._original.pop('password', None)
+        del self._password
+
     def get_id(self):
         return getattr(self, 'user_id', None)
 
@@ -161,10 +166,10 @@ class User(QueryableMixin, CRUDEndPoint):
             data['connection'] = self._connection
             data = self._client.post(self._endpoint, data, timeout=self._timeout)
             self.__dict__.update(data)
-            self._original.update(self.as_dict())
+            self._original.update(self.as_dict(updatable_only=True))
             self._fetched = True
         try:  # once saved the password should be deleted
-            del self._password
+            del self.password
         except AttributeError:
             pass
 
