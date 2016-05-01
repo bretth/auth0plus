@@ -8,7 +8,7 @@ from .queryset import QuerySet
 def _get_url(self):
     id = self.get_id()
     if id:
-        return '/'.join([self._endpoint, str(id)])
+        return '/'.join([self._endpoint, quote(str(id))])
 
 
 class BaseEndPoint(object):
@@ -44,7 +44,7 @@ class BaseEndPoint(object):
     @classmethod
     def get_url(cls, id=None):
         if id:
-            return '/'.join([cls._endpoint, str(id)])
+            return '/'.join([cls._endpoint, quote(str(id))])
         else:
             return cls._endpoint
 
