@@ -52,21 +52,21 @@ The api follows the documented api for v2. So the endpoint of /api/v2/users is g
     
     >>> user = auth0.users() 
 
-Now we'll actually create a few users:
+Now we'll actually create a few users for my 4 year old's favourite band.:
 
-1. In one step using the endpoint create method::
+1. In one step using the endpoint *create* method::
 
     >>> angus = auth0.users.create(email='angus.young@acdc.com', email_verified=True,
     ...     password='Jailbreak')
 
-2. With the convience *get_or_create* method which will be familiar to django users::
+2. With the convience *get_or_create* method which follows the django equivalent::
 
     >>> malcolm, created = auth0.users.get_or_create(
     ...     defaults={'email_verified': True, 'password': 'ChuckB'},
     ...     email='malcolm.young@acdc.com')
     >>> assert created == True
 
-3. In two steps with init and save::
+3. In two steps with init and *save*::
 
     >>> singer = auth0.users(email='dave.evans@acdc.com', email_verified=True,
     ...     password='CanISitNextToYouGirl')
@@ -105,7 +105,7 @@ The *get* classmethod allows returning a single instance, and class specific Obj
     ...     email='brian.johnson@acdc.com')
 
 
-The _get_ method uses the auth0 lucene search which means for anything other than the id you can potentially get multiple results (and a MultipleObjects exception), but beware you also need to ensure enough time has passed for newly created users to be indexed::
+The *get* method uses the auth0 lucene search which means for anything other than the id you can potentially get multiple results (and a MultipleObjects exception), but beware you also need to ensure enough time has passed for newly created users to be indexed::
 
     >>> from auth0plus.exceptions import MultipleObjectsReturned
     >>> import time
@@ -116,7 +116,7 @@ The _get_ method uses the auth0 lucene search which means for anything other tha
     ...     print(err)
     User.get returned multiple users
 
-When you actually want multiple results use a _query_ or _all_ which return a sliceable lazy object::
+When you actually want multiple results use a *query* or *all* which return a sliceable lazy object::
     
     >>> singers = auth0.users.query(email='b*')
     >>> singers.count()  # the total returned by include_totals=true, no iteration necessary
@@ -140,14 +140,13 @@ Delete instances with classmethods or instance method::
     >>> bon.delete()
     >>> auth0.users.delete(brian.get_id())
 
-Get all the remaining band members::
+Get all the remaining band members and delete them. Sorry Angus.::
 
     >>> band = auth0.users.all()
     >>> band.count()
     2
     >>> for member in band:
     ...     member.delete()
-
 
 
 Credits
