@@ -3,8 +3,13 @@ Auth0+ python
 ===============================
 
 
+.. image:: https://img.shields.io/pypi/v/auth0plus.svg
+        :target: https://pypi.python.org/pypi/auth0plus
+
 .. image:: https://img.shields.io/travis/bretth/auth0plus.svg
         :target: https://travis-ci.org/bretth/auth0plus
+
+.. image:: https://coveralls.io/repos/github/bretth/auth0plus/badge.svg?branch=master :target: https://coveralls.io/github/bretth/auth0plus?branch=master
 
 
 An unofficial python interface for the Auth0 management api v2 that speeds up integration in python projects.
