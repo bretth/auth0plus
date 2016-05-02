@@ -54,20 +54,22 @@ The api follows the documented api for v2. So the endpoint of /api/v2/users is g
 
 Now we'll actually create a few users:
 
-- In one step using the endpoint create method::
+1. In one step using the endpoint create method::
 
-    >>> angus = auth0.users.create(email='angus.young@acdc.com', email_verified=True, password='Jailbreak')
+    >>> angus = auth0.users.create(email='angus.young@acdc.com', email_verified=True,
+    ...     password='Jailbreak')
 
-- With the convience *get_or_create* method which will be familiar to django users
+2. With the convience *get_or_create* method which will be familiar to django users::
 
     >>> malcolm, created = auth0.users.get_or_create(
     ...     defaults={'email_verified': True, 'password': 'ChuckB'},
     ...     email='malcolm.young@acdc.com')
     >>> assert created == True
 
-- In two steps with init and save::
+3. In two steps with init and save::
 
-    >>> singer = auth0.users(email='dave.evans@acdc.com', email_verified=True, password='CanISitNextToYouGirl')
+    >>> singer = auth0.users(email='dave.evans@acdc.com', email_verified=True,
+    ...     password='CanISitNextToYouGirl')
     >>> singer.save()
     >>> print(singer.user_id)
     auth0|...
