@@ -7,7 +7,7 @@ Auth0+ python
         :target: https://travis-ci.org/bretth/auth0plus
 
 
-An unofficial python interface for the Auth0 management api v2 inspired by django. Currently it just implements the users endpoint.
+An unofficial python interface for the Auth0 management api v2 that speeds up integration in python projects.
 
 * Free software: ISC license
 
@@ -41,18 +41,18 @@ This example doctest uses python-dotenv to hold the secrets and variables in a .
     True
     >>> domain = os.getenv('DOMAIN')
     >>> client_id = os.getenv('CLIENT_ID')
-    >>> connection = os.getenv('CONNECTION')
+    >>> db = os.getenv('CONNECTION') 
     >>> jwt = os.getenv('JWT')
 
-Create the lazy connection::
+Create the lazy connection. We're going to connect to a database backed store::
 
-    >>> auth0 = Auth0(domain, jwt, client_id, connection)
+    >>> auth0 = Auth0(domain, jwt, client_id=client_id, default_connection=db)
 
 The api follows the documented api for v2. So the endpoint of /api/v2/users is going to be *auth0.users*, and to get an empty user instance you would call the constructor::
     
     >>> user = auth0.users() 
 
-Now we'll actually create a few users for my 4 year old's favourite band.:
+Now we'll actually create a few users for my 4 year old's favourite band:
 
 1. In one step using the endpoint *create* method::
 
@@ -74,7 +74,7 @@ Now we'll actually create a few users for my 4 year old's favourite band.:
     >>> print(singer.user_id)
     auth0|...
 
-Save also updates the user (which may make multiple calls to the endpoint)::
+*Save* also updates the user (which may make multiple calls to the endpoint)::
 
     >>> singer.email = 'bon.scott@acdc.com'
     >>> singer.password = 'HighwayToHell'

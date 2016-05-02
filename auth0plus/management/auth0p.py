@@ -32,11 +32,12 @@ class Auth0(object):
         session: Optional requests.Session instance
     """
     
-    def __init__(self, domain, token, client_id='', connection='', timeout=TIMEOUT, session=None):
+    def __init__(self, domain, token, client_id='', default_connection='',
+                 timeout=TIMEOUT, session=None):
         # set some defaults for the endpoint classes
         self._client = RestClient(token, session=session)
         self._base_url = 'https://%s/api/v2' % domain
-        self._default_connection = connection
+        self._default_connection = default_connection
 
         defaults = {
             '_base_url': self._base_url,
