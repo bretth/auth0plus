@@ -100,6 +100,8 @@ class User(QueryableMixin, CRUDEndPoint):
             if params.get('q', None):
                 raise UnimplementedException('v1 search engine does not allow q')
             kwargs = {}
+        elif kwargs.get('q', None):
+            params['search_engine'] = search_engine
         elif search_engine == 'v2' and connection and not kwargs.get('q', None):
             params['search_engine'] = search_engine
             kwargs['q'] = {'identities.connection': connection}
