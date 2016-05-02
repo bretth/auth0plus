@@ -7,7 +7,6 @@ from dotenv import load_dotenv
 
 from auth0plus.exceptions import Auth0Error, MultipleObjectsReturned
 from auth0plus.management.auth0p import Auth0
-from auth0plus.management.users import User
 
 load_dotenv('.env')
 skip = int(os.getenv('SKIP_INTEGRATION_TESTS', 1))
@@ -80,6 +79,7 @@ class BaseTestWithUsers(IntegrationTestCase):
         for user in self.users:
             try:
                 self.auth0._client.post(url, data=user)
+                time.sleep(2)  # wait for users to be indexed for search
             except Auth0Error as err:
                 if err.status_code == 400 and 'The user already exists.' in err.message:
                     continue
@@ -89,20 +89,9 @@ class BaseTestWithUsers(IntegrationTestCase):
 
 class TestUserQuery(BaseTestWithUsers):
 
-    def test_query(self):
-        time.sleep(5)  # wait for users to be indexed for search
-        all_users = self.auth0.users.all()
-        self.assertGreaterEqual(all_users.count(), 2)
-        self.assertTrue(all_users[-1].get_id().startswith('auth0|'))
-        all_users = self.auth0.users.query(email='*@acdc.com')
-        self.assertGreaterEqual(all_users.count(), 2)
-        with self.assertRaises(User.DoesNotExist):
-            self.auth0.users.get(email='dave@acdc.com')
+    def test_multiple_objects_returned(self):
         with self.assertRaises(MultipleObjectsReturned):
             self.auth0.users.get()
-        angus = self.auth0.users.get(email='angus@acdc.com')
-        also_angus = self.auth0.users.get(user_id=angus.get_id())
-        self.assertEqual(also_angus, angus)
         
 
 
