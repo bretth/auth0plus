@@ -130,7 +130,12 @@ class UpdatableMixin(object):
 
 
 def _build_lucene_query(kwargs):
-    lucene_q = ['%s:"%s"' % (key, u(value)) for key, value in kwargs.items()]
+    lucene_q = []
+    for key, value in kwargs.items():
+        if '*' in value:
+            lucene_q.append('%s:%s' % (key, u(value)))
+        else:
+            lucene_q.append('%s:"%s"' % (key, u(value)))
     return ' AND '.join(lucene_q)
 
 
