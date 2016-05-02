@@ -21,7 +21,7 @@ Installation
 Usage
 ------
 
-To get started you will need your Auth0 domain, client id, and connection to the database that will hold your users. You will also need a JSON web token (jwt)::
+To get started you will need your Auth0 domain, client id, and connection to the database that will hold your users. You will also need a JSON web token (jwt):
 
 - Login to auth0.com
 - Go to their management api documentation (https://auth0.com/docs/api/v2)
