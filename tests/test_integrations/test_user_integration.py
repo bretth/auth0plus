@@ -93,10 +93,3 @@ class TestUserQuery(BaseTestWithUsers):
         with self.assertRaises(MultipleObjectsReturned):
             self.auth0.users.get()
         
-
-
-
-
-
-
-
