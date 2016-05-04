@@ -36,7 +36,7 @@ To get started you will need your Auth0 domain, client id, and connection to the
 
 In your code import the Auth0 class::
 
-    >>> from auth0plus.management.auth0p import Auth0
+    >>> from auth0plus.management import Auth0
 
 This example doctest uses python-dotenv to hold the secrets and variables in a .env file::
 
@@ -62,14 +62,17 @@ Now we'll actually create a few users for my 4 year old's favourite band:
 1. In one step using the endpoint *create* method::
 
     >>> angus = auth0.users.create(email='angus.young@acdc.com', email_verified=True,
-    ...     password='Jailbreak')
+    ...     password='Jailbreak', user_metadata={'family_name': 'Young'})
 
 2. With the convience *get_or_create* method which follows the django equivalent::
 
     >>> malcolm, created = auth0.users.get_or_create(
-    ...     defaults={'email_verified': True, 'password': 'ChuckB'},
-    ...     email='malcolm.young@acdc.com')
-    >>> assert created == True
+    ...     defaults={'email_verified': True, 'password': 'ChuckB', 
+    ...     'user_metadata': {'family_name': 'Young'}}, email='malcolm.young@acdc.com')  
+    >>> malcolm.user_metadata
+    {'family_name': 'Young'}
+    >>> malcolm.picture
+    'https://s.gravatar.com/avatar/...'
 
 3. In two steps with init and *save*::
 
@@ -129,23 +132,25 @@ When you actually want multiple results use a *query* or *all* which return a sl
     >>> singers[:]  # evaluate the whole query
     [<User auth0|...>, <User auth0|...>]
 
-You can also construct your own 'q' syntax instead of keyword arguments and pass additional endpoint parameters::  
+You can also construct your own 'q' syntax instead of keyword arguments and pass additional endpoint parameters. In this case we'll just get the user_id and email::  
     
-    >>> bon = auth0.users.query(
-    ...     q='email:"bon.scott@acdc.com"', 
-    ...     fields='user_id,email')[0]
+    >>> brothers = auth0.users.query(
+    ...     q='user_metadata.family_name:"Young"', 
+    ...     fields='user_id,email')
+    >>> brothers.count()
+    2
 
 If you want to do something with the user data returned then *as_dict* is your friend::
 
-    >>> bon.as_dict()['user_id']
-    'auth0|...'
+    >>> brothers[0].as_dict()
+    {'user_id': 'auth0|...', 'email': 'angus.young@acdc.com'}
 
 Delete instances with classmethods or instance method::
 
-    >>> bon.delete()
+    >>> singer.delete()  # Remove Bon Scott
     >>> auth0.users.delete(brian.get_id())
 
-Get all the remaining band members and delete them. Sorry Angus.::
+Get all the remaining band members (and delete them). Sorry Angus, it's time to retire.::
 
     >>> band = auth0.users.all()
     >>> band.count()

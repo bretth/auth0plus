@@ -25,7 +25,7 @@ class Auth0(object):
 
         client_id (str): Optional. The Auth0 client id - used for updating some user attributes
 
-        connection (str): Optional default user connection
+        default_connection (str): Optional default user connection
 
         timeout (int): Optional timeout in seconds.
 
