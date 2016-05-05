@@ -2,4 +2,4 @@
 
 __author__ = 'Brett Haydon'
 __email__ = 'brett@haydon.id.au'
-__version__ = '0.2.0'
+__version__ = '0.2.1'
