@@ -62,8 +62,11 @@ class User(QueryableMixin, CRUDEndPoint):
     @classmethod
     def get(cls, id=None, **kwargs):
         if id:
-            data = cls._client.get(cls.get_url(id), params=kwargs, timeout=cls._timeout)
-            return cls(**data)
+            try:
+                data = cls._client.get(cls.get_url(id), params=kwargs, timeout=cls._timeout)[0]
+                return cls(**data)
+            except IndexError:
+                raise User.DoesNotExist("User Does Not Exist")
         else:
             kwargs['per_page'] = 1
             kwargs['include_totals'] = True

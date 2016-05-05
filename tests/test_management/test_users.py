@@ -10,7 +10,7 @@ class TestUser1(unittest.TestCase):
     def setUp(self):
         User._default_connection = 'test-conn'
         User._client = mock.Mock()
-        User._client.get = mock.Mock(return_value={'id': 1, 'email': 'malcolm@acdc.com'})
+        User._client.get = mock.Mock(return_value=[{'id': 1, 'email': 'malcolm@acdc.com'}])
 
     def tearDown(self):
         User._default_connection = ''
