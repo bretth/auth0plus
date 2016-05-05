@@ -82,7 +82,7 @@ Now we'll actually create a few users for my 4 year old's favourite band:
     >>> print(singer.user_id)
     auth0|...
 
-*Save* also updates the user (which may make multiple calls to the endpoint).
+*Save* also updates the user (which may need to make multiple calls to the endpoint).
 ::
     >>> singer.email = 'bon.scott@acdc.com'
     >>> singer.password = 'HighwayToHell'
@@ -100,7 +100,7 @@ One thing to note is that the password is not available once it's saved.
         raise AttributeError("'User' object does not have a new password")
     AttributeError: 'User' object does not have a new password
 
-The *get* classmethod allows returning a single instance, and class specific ObjectDoesNotExist exception (User.DoesNotExist) if it doesn't exist.
+The *get* classmethod allows returning a single instance, and class specific *ObjectDoesNotExist* exception (*User.DoesNotExist*) if it doesn't exist.
 ::
     >>> try:
     ...     brian = auth0.users.get(email='brian.johnson@acdc.com')
@@ -113,7 +113,7 @@ The *get* classmethod allows returning a single instance, and class specific Obj
     ...     email='brian.johnson@acdc.com')
 
 
-The *get* method uses the auth0 lucene search which means for anything other than the id you can potentially get multiple results (and a MultipleObjects exception), but beware you also need to ensure enough time has passed for newly created users to be indexed.
+The *get* method uses the auth0 lucene search which means for anything other than the id you can potentially get multiple results (and a *MultipleObjectsReturned* exception), but beware you also need to ensure enough time has passed for newly created users to be indexed.
 ::
     >>> from auth0plus.exceptions import MultipleObjectsReturned
     >>> import time
