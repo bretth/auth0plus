@@ -64,7 +64,9 @@ class User(QueryableMixin, CRUDEndPoint):
         if id:
             try:
                 data = cls._client.get(cls.get_url(id), params=kwargs, timeout=cls._timeout)[0]
-                return cls(**data)
+                user = cls(**data)
+                user._fetched = True
+                return user
             except IndexError:
                 raise User.DoesNotExist("User Does Not Exist")
         else:
