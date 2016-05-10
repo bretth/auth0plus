@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os
 import time
 import unittest
@@ -23,7 +24,7 @@ class IntegrationTestCase(unittest.TestCase):
             self.domain,
             os.getenv('JWT'),
             client_id=self.client_id,
-            connection=self.connection,
+            default_connection=self.connection,
             session=self.session
         )
 
@@ -36,7 +37,7 @@ class TestUserCreate(IntegrationTestCase):
         # delete any existing user
         url = 'https://%s/api/v2/users' % self.domain
         params = {
-            'q': 'identities.connection:"%s" AND email:"angus@acdc.com"' % self.connection,
+            'q': u'identities.connection:"%s" AND email:"angus@äcdc.com"' % self.connection,
             'search_engine': 'v2'}
         resp = self.auth0._client.get(url, params=params)
         try:
@@ -47,16 +48,16 @@ class TestUserCreate(IntegrationTestCase):
         resp = self.auth0._client.delete(url)
 
     def test_get_or_create(self):
-        defaults = {'email_verified': True, 'password': "JailBreak"}
+        defaults = {'email_verified': True, 'password': u"JäilBreak"}
         user1, created1 = self.auth0.users.get_or_create(
             defaults=defaults,
-            email='angus@acdc.com')
+            email=u'angus@äcdc.com')
         self.assertTrue(created1)
         time.sleep(3)
         self.assertTrue(user1.get_id().startswith('auth0|'))
         user2, created2 = self.auth0.users.get_or_create(
             defaults=defaults,
-            email='angus@acdc.com')
+            email=u'angus@äcdc.com')
         self.assertFalse(created2)
 
         self.assertEqual(user1, user2)
@@ -68,12 +69,12 @@ class BaseTestWithUsers(IntegrationTestCase):
         url = 'https://%s/api/v2/users' % self.domain
         self.users = [{
             'connection': self.connection,
-            'email': 'angus@acdc.com',
-            'password': 'JailBreak',
+            'email': u'angus@äcdc.com',
+            'password': u'JäilBreak',
             'email_verified': True},
             {
             'connection': self.connection,
-            'email': 'malcolm@acdc.com',
+            'email': u'malcolm@äcdc.com',
             'password': 'ChuckBerry',
             'email_verified': True}]
         for user in self.users:

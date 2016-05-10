@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import unittest
 from mock import Mock, patch
 
@@ -12,16 +13,16 @@ f1 = {
   "length": 3,
   "total": 3,
   "users": [
-    {"email": "brian@acdc.com"},
-    {"email": "bon@acdc.com"},
-    {"email": "malcolm@acdc.com"}
+    {"email": "brian@äcdc.com"},
+    {"email": "bon@äcdc.com"},
+    {"email": "malcolm@äcdc.com"}
   ]
 }
 
 f2 = [
-    {"email": "brian@acdc.com"},
-    {"email": "bon@acdc.com"},
-    {"email": "malcolm@acdc.com"}
+    {"email": "brian@äcdc.com"},
+    {"email": "bon@äcdc.com"},
+    {"email": "malcolm@äcdc.com"}
 ]
 
 f3a = [{
@@ -30,13 +31,13 @@ f3a = [{
   "length": 2,
   "total": 3,
   "users": [
-    {"email": "brian@acdc.com"},
-    {"email": "bon@acdc.com"},
+    {"email": "brian@äcdc.com"},
+    {"email": "bon@äcdc.com"},
 
   ]
 }]
 
-f3b = [{"email": "malcolm@acdc.com"}]
+f3b = [{"email": "malcolm@äcdc.com"}]
 
 
 class TestQuerySet(unittest.TestCase):
@@ -81,7 +82,7 @@ class TestQuerySet(unittest.TestCase):
         self.assertEqual(qs._len, 2)
         # the unconsumed response should have 2 records in it
         self.assertEqual(len(qs._response), 2)
-        self.assertEqual(qs[1].email, "bon@acdc.com")
+        self.assertEqual(qs[1].email, "bon@äcdc.com")
         # after extracting the last record the response should be empty
         self.assertEqual(qs._response, [])
         # and the response should now be cached
@@ -89,7 +90,7 @@ class TestQuerySet(unittest.TestCase):
 
         self.cls._client.get.return_value = f3b
         # get the remaining record
-        self.assertEqual(qs[2].email, "malcolm@acdc.com")
+        self.assertEqual(qs[2].email, "malcolm@äcdc.com")
         self.assertEqual(len(qs._cached), 3)
         args, kwargs = self.cls._client.get.call_args
         self.assertIn('per_page', args[1].keys())
@@ -103,7 +104,7 @@ class TestQuerySet(unittest.TestCase):
 
     @patch('auth0plus.management.queryset.QuerySet.__next__', side_effect=StopIteration)
     def test__getitem__stopiteration(self, mock_next):
-        self.cls._client.get.return_value = [{'email': 'brian@acdc.com'}]
+        self.cls._client.get.return_value = [{'email': 'brian@äcdc.com'}]
         qs = QuerySet(self.cls, per_page=50)
         self.assertFalse(mock_next.called)
         try:
@@ -121,7 +122,7 @@ class TestQuerySet(unittest.TestCase):
         self.assertEqual(qs.count(), 3)
 
     def test_include_totals_unimplemented(self):
-        self.cls._client.get.return_value = [{"email": "malcolm@acdc.com"}]
+        self.cls._client.get.return_value = [{"email": "malcolm@äcdc.com"}]
         with self.assertRaises(UnimplementedException):
             qs = QuerySet(self.cls, per_page=10)
             # artificially set the recs returned to longer than what we got
@@ -129,13 +130,13 @@ class TestQuerySet(unittest.TestCase):
             qs.count()
 
     def test_count_simple(self):
-        self.cls._client.get.return_value = [{"email": "malcolm@acdc.com"}]
+        self.cls._client.get.return_value = [{"email": "malcolm@äcdc.com"}]
         qs = QuerySet(self.cls, per_page=10)
         # artificially set the recs returned to longer than what we got
         self.assertEqual(qs.count(), 1)
 
     def test_per_page_unimplemented(self):
-        self.cls._client.get.return_value = [{"email": "malcolm@acdc.com"}]
+        self.cls._client.get.return_value = [{"email": "malcolm@äcdc.com"}]
         with self.assertRaises(UnimplementedException):
             qs = QuerySet(self.cls, per_page=10)
             # artificially set the recs returned to longer than what we got

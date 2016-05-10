@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from unittest import TestCase
 
 from mock import Mock, patch
@@ -215,17 +216,17 @@ class TestQueryableMixin(TestCase):
         self.assertEqual(mockqs.fields, 'xyz,abc')
 
     def test_with_custom_q_dict(self):
-        QueryableMixin.query(q={'email': "bonscott@acdc.com"})
+        QueryableMixin.query(q={'email': u"bonscott@äcdc.com"})
         # _build_lucene_query called with the q
         args, kwargs = self.mock_blq.call_args
-        self.assertEqual(args[0], {'email': "bonscott@acdc.com"})
+        self.assertEqual(args[0], {'email': u"bonscott@äcdc.com"})
 
     def test_with_custom_q_str(self):
-        mockqs = QueryableMixin.query(q='email:"bonscott@acdc.com"')
+        mockqs = QueryableMixin.query(q=u'email:"bonscott@äcdc.com"')
         # _build_lucene_query not called
         self.assertIsNone(self.mock_blq.call_args)
         # passed through
-        self.assertEqual(mockqs.q, 'email:"bonscott@acdc.com"')
+        self.assertEqual(mockqs.q, u'email:"bonscott@äcdc.com"')
 
 
 class Test__build_lucene_query(TestCase):
@@ -235,7 +236,7 @@ class Test__build_lucene_query(TestCase):
         self.assertEqual(lq, '')
 
     def test__build_lucene_query(self):
-        kwargs = {'email': "bonscott@acdc.com"}
+        kwargs = {'email': u"bonscott@äcdc.com"}
         lq = _build_lucene_query(kwargs)
-        self.assertEqual(lq, 'email:"bonscott@acdc.com"')
+        self.assertEqual(lq, u'email:"bonscott@äcdc.com"')
 

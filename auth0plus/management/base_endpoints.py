@@ -133,9 +133,9 @@ def _build_lucene_query(kwargs):
     lucene_q = []
     for key, value in kwargs.items():
         if '*' in value:
-            lucene_q.append('%s:%s' % (key, u(value)))
+            lucene_q.append(u'%s:%s' % (key, value))
         else:
-            lucene_q.append('%s:"%s"' % (key, u(value)))
+            lucene_q.append(u'%s:"%s"' % (key, value))
     return ' AND '.join(lucene_q)
 
 
