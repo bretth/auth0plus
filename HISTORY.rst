@@ -2,6 +2,11 @@
 History
 =======
 
+0.2.2 (10-May-2016)
+-------------------
+
+* Setuptools always catches me out
+
 0.2.1 (05-May-2016)
 -------------------
 
