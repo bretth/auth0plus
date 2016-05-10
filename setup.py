@@ -32,6 +32,7 @@ setup(
     url='https://github.com/bretth/auth0plus',
     packages=[
         'auth0plus',
+        'auth0plus.management'
     ],
     package_dir={'auth0plus':
                  'auth0plus'},
