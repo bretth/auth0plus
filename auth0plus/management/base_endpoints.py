@@ -1,15 +1,9 @@
-from six import u
+from combomethod import combomethod
 from six.moves.urllib.parse import quote
 
 from ..exceptions import UnimplementedException
 from ..settings import AUTH0_PER_PAGE
 from .queryset import QuerySet
-
-
-def _get_url(self):
-    id = self.get_id()
-    if id:
-        return '/'.join([self._endpoint, quote(str(id))])
 
 
 class BaseEndPoint(object):
@@ -23,8 +17,7 @@ class BaseEndPoint(object):
     def __init__(self, **kwargs):
         self._fetched = False  # True when loaded from endpoint
         self._original = {}  # allow diffing changes after creation
-        # bind the instance version of get_url
-        self.get_url = _get_url.__get__(self, self.__class__)
+
         # attributes to always exclude from post/patch
         self._private_attrs = []
         self._private_attrs = list(self.__dict__.keys())
@@ -42,13 +35,16 @@ class BaseEndPoint(object):
                self.__class__.__name__,
                self.get_id() or '')
 
-    @classmethod
-    def get_url(cls, id=None):
+    @combomethod
+    def get_url(receiver, id=None):
+        try:
+            id = receiver.get_id()
+        except TypeError:
+            pass
         if id:
-            return '/'.join([cls._endpoint, quote(str(id))])
-        else:
-            return cls._endpoint
-
+            return '/'.join([receiver._endpoint, quote(str(id))])
+        return receiver._endpoint
+            
     def _get_public_attrs(self):
         public = list(set(self.__dict__.keys()) - set(self._private_attrs))
         return public
@@ -165,34 +161,25 @@ class QueryableMixin(object):
         return QuerySet(cls, **params)
 
 
-def _delete(self):
-    """Instance delete method"""
-    assert self.get_id() is not None, (
-        "%s object can't be deleted because its primary id attribute is set to None." %
-        self.__class__.__name__
-    )
-    self._client.delete(self.get_url(), timeout=self._timeout)
-
-
 class CRUDEndPoint(UpdatableMixin, CreatableMixin, BaseEndPoint):
 
     def __init__(self, **kwargs):
-        # override class method delete with instance method
-        self.delete = _delete.__get__(self, self.__class__)
         BaseEndPoint.__init__(self, **kwargs)
 
-    @classmethod
-    def delete(cls, id):
-        cls._client.delete('/'.join([cls._endpoint, str(id)]), timeout=cls._timeout)
+    @combomethod
+    def delete(receiver, id=None):
+        try:
+            id = receiver.get_id()
+        except TypeError:
+            pass
+        assert id is not None, (
+            "%s object can't be deleted because its primary id attribute is set to None." %
+            receiver.__class__.__name__
+        )
+        receiver._client.delete('/'.join([receiver._endpoint, str(id)]), timeout=receiver._timeout)
 
     def save(self, params=None):
         if self._fetched:
             UpdatableMixin.save(self, params=params)
         else:
             CreatableMixin.save(self, params=params)
-
-
-
-
-
-

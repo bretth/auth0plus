@@ -100,6 +100,8 @@ One thing to note is that the password is not available once it's saved.
         raise AttributeError("'User' object does not have a new password")
     AttributeError: 'User' object does not have a new password
 
+To distinguish between a User instance that has been created locally and one that has been reconstituted from Auth0 the boolean attribute *_fetched* determines whether the record is updated (True) or created (False) regardless of the user_id.
+
 The *get* classmethod allows returning a single instance, and class specific *ObjectDoesNotExist* exception (*User.DoesNotExist*) if it doesn't exist.
 ::
     >>> try:
