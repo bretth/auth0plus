@@ -1,3 +1,5 @@
+from copy import deepcopy
+
 from combomethod import combomethod
 from six.moves.urllib.parse import quote
 
@@ -65,7 +67,7 @@ class BaseEndPoint(object):
                     data[item] = value
             except KeyError:
                 data[item] = value
-        return data
+        return deepcopy(data)
 
     def get_id(self):
         return getattr(self, 'id', None)
@@ -78,7 +80,7 @@ class BaseEndPoint(object):
             public_dict = {
                 key: value for key, value in public_dict.items()
                 if key in self._updatable}
-        return public_dict
+        return deepcopy(public_dict)
 
 
 class CreatableMixin(object):

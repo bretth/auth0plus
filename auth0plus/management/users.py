@@ -1,3 +1,5 @@
+from copy import deepcopy
+
 from ..exceptions import (
     UnimplementedException,
     MultipleObjectsReturned,
@@ -140,7 +142,7 @@ class User(QueryableMixin, CRUDEndPoint):
     def save(self):
         data = self.get_changed()
         if self._fetched:
-            changed = dict(data)
+            changed = deepcopy(data)
             attrs = data.keys()
             # Cannot update password and email simultaneously
             # Cannot update password and email_verified simultaneously
@@ -179,8 +181,3 @@ class User(QueryableMixin, CRUDEndPoint):
             del self.password
         except AttributeError:
             pass
-
-
-
-
-
