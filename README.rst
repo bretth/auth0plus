@@ -100,7 +100,7 @@ One thing to note is that the password is not available once it's saved.
         raise AttributeError("'User' object does not have a new password")
     AttributeError: 'User' object does not have a new password
 
-To distinguish between a User instance that has been created locally and one that has been reconstituted from Auth0 the boolean attribute *_fetched* determines whether the record is updated (True) or created (False) regardless of the user_id.
+To distinguish between a User instance that has been created locally and one that has been fetched from Auth0 the boolean attribute *_fetched* determines whether saving the record would be an update (_fetched == True) or a create (_fetched == False). 
 
 The *get* classmethod allows returning a single instance, and class specific *ObjectDoesNotExist* exception (*User.DoesNotExist*) if it doesn't exist.
 ::
@@ -144,8 +144,18 @@ You can also construct your own 'q' syntax instead of keyword arguments and pass
 
 If you want to do something with the user data returned then *as_dict* is your friend.
 ::
-    >>> brothers[0].as_dict()
-    {'user_id': 'auth0|...', 'email': 'angus.young@acdc.com'}
+    >>> serialized = brothers[0].as_dict()
+
+To maintain state such as whether it has been *_fetched* from auth0 you would pickle the instance, otherwise *as_dict* is the safer choice to reconstitute the object making no assumptions about any changes that might have been made.
+::
+    >>> new_angus = auth0.users(**serialized)
+    >>> new_angus.password = 'MoneyTrain'
+    >>> from auth0plus.exceptions import Auth0Error
+    >>> try:
+    ...     new_angus.save()
+    ... except Auth0Error as err:
+    ...     print(err)
+    400: The user already exists.
 
 Delete instances with classmethods or instance method.
 ::
