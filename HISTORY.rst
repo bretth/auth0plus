@@ -2,6 +2,12 @@
 History
 =======
 
+0.2.4 (20-June-2016)
+--------------------
+
+* Fix issue with pickling
+* Fix issue with shared nested dictionary
+
 0.2.3 (10-May-2016)
 -------------------
 
