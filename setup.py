@@ -25,7 +25,7 @@ test_requirements = [
 
 setup(
     name='auth0plus',
-    version='0.2.3',
+    version='0.2.4',
     description="Unofficial enhancements to the Auth0-python package",
     long_description=readme + '\n\n' + history,
     author="Brett Haydon",
