@@ -36,5 +36,6 @@ def main():
         resp = requests.delete('/'.join([url, user_id]), headers=headers)
         print(resp)
 
+
 if __name__ == '__main__':
     main()
