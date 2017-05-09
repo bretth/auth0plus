@@ -2,6 +2,11 @@
 History
 =======
 
+0.3.0 (09-May-2017)
+--------------------
+
+* Add get_token function to work with the new temporary client tokens
+
 0.2.4 (20-June-2016)
 --------------------
 

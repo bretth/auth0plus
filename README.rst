@@ -31,7 +31,7 @@ We'll get started with the simplest scenario which is using Auth0 to store a dat
 - Login to auth0.com
 - Go to the `clients menu <https://manage.auth0.com/#/clients>`_
 - Create a client and click on it's settings to get the *Domain* *Client ID* and *Client Secret*
-- Go to the `APIs menu <https://manage.auth0.com/#/apis`_ and click *Auth0 Management API*
+- Go to the `APIs menu <https://manage.auth0.com/#/apis>`_ and click *Auth0 Management API*
 - Click *Non Interactive Clients* and authorise your client then expand the selection to select scopes.
 - Select read:users, update:users, delete:users, create:users, read:users_app_metadata, update:users_app_metadata, delete:users_app_metadata, create:users_app_metadata and create:user_tickets then *update*.
 
@@ -42,7 +42,7 @@ In your code import the Auth0 class.
     >>> from auth0plus.management import Auth0
     >>> from auth0plus.oauth import get_token
 
-This example doctest uses python-dotenv to hold the secrets and variables in a .env file. You can configure and run it your self with `make doctests`.
+This example doctest uses python-dotenv to hold the secrets and variables in a .env file. You can configure and run it your self with **make doctests**.
 ::
     >>> import os
     >>> from dotenv import load_dotenv
