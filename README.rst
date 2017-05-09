@@ -26,7 +26,7 @@ Installation
 Usage
 ------
 
-To get started with the simplest scenario which is using Auth0 to store a database of users to authenticate against you need to configure a domain and a non-interactive client to access a connection (database). You will also need a JSON web token (jwt) for the client application to access the parts of the api you specify (scopes). This can be generated manually or as I will show here it can be programmatically granted every 24 hours by a separate call to an oauth/token endpoint:
+We'll get started with the simplest scenario which is using Auth0 to store a database of users to authenticate against. For this you need to configure a domain and a non-interactive client to access a connection (database). You will also need a JSON web token (jwt) for the client application to access the parts of the api you specify (scopes). This can be generated manually or as I will show here it can be programmatically granted every 24 hours by a separate call to an oauth/token endpoint:
 
 - Login to auth0.com
 - Go to the `clients menu <https://manage.auth0.com/#/clients>`_
@@ -42,7 +42,7 @@ In your code import the Auth0 class.
     >>> from auth0plus.management import Auth0
     >>> from auth0plus.oauth import get_token
 
-This example doctest uses python-dotenv to hold the secrets and variables in a .env file.
+This example doctest uses python-dotenv to hold the secrets and variables in a .env file. You can configure and run it your self with `make doctests`.
 ::
     >>> import os
     >>> from dotenv import load_dotenv
@@ -108,7 +108,7 @@ One thing to note is that the password is not available once it's saved.
         raise AttributeError("'User' object does not have a new password")
     AttributeError: 'User' object does not have a new password
 
-To distinguish between a User instance that has been created locally and one that has been fetched from Auth0 the boolean attribute *_fetched* determines whether saving the record would be an update (*``_``fetched == True*) or a create (*_fetched == False*).
+To distinguish between a User instance that has been created locally and one that has been fetched from Auth0 the boolean attribute *_fetched* determines whether saving the record would be an update (*True*) or a create (*False*).
 
 The *get* classmethod allows returning a single instance, and class specific *ObjectDoesNotExist* exception (*User.DoesNotExist*) if it doesn't exist.
 ::
