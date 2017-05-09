@@ -1,6 +1,6 @@
 
 try:
-    from auth0.v2.exceptions import Auth0Error
+    from auth0.v3.exceptions import Auth0Error
 except ImportError:  # pragma: no cover
     class Auth0Error(Exception):
         def __init__(self, status_code, error_code, message):
