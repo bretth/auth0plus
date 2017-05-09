@@ -8,6 +8,7 @@ from auth0plus.oauth import get_token
 
 
 load_dotenv('.env')
+skip = int(os.getenv('SKIP_INTEGRATION_TESTS', 1))
 
 
 class TestGetAToken(unittest.TestCase):
