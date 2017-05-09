@@ -8,20 +8,21 @@ from ..settings import TIMEOUT
 
 
 class RestClient(object):
-    def __init__(self, jwt, telemetry=True, session=None):
+    def __init__(self, jwt=None, telemetry=True, session=None):
         self.jwt = jwt
         self.requests = session or requests.Session()
         base_headers = {
-            'Authorization': 'Bearer %s' % self.jwt,
             'Content-Type': 'application/json'
         }
+        if self.jwt:
+            base_headers['Authorization'] = 'Bearer %s' % self.jwt
         if telemetry:  # we don't want to pretend to be the official Auth0 client
             py_version = '%i.%i.%i' % (sys.version_info.major,
                                        sys.version_info.minor,
                                        sys.version_info.micro)
 
             base_headers['User-Agent'] = 'Python/%s' % py_version
-        
+
         self.requests.headers.update(base_headers)
 
     def get(self, url, params={}, timeout=TIMEOUT):
@@ -71,5 +72,5 @@ class RestClient(object):
             raise Auth0Error(status_code=text['statusCode'],
                              error_code=text['errorCode'],
                              message=text['message'])
- 
+
         return text
