@@ -11,6 +11,7 @@ load_dotenv('.env')
 
 
 class TestGetAToken(unittest.TestCase):
+    @unittest.skipIf(skip, 'SKIP_INTEGRATION_TESTS==1')
     def setUp(self):
         """
         Get a non-interactive client secret
