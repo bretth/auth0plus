@@ -67,10 +67,18 @@ class RestClient(object):
 
     def _process_response(self, response):
         text = json.loads(response.text) if response.text else {}
-
-        if isinstance(text, dict) and 'errorCode' in text:
-            raise Auth0Error(status_code=text['statusCode'],
-                             error_code=text['errorCode'],
-                             message=text['message'])
+        if isinstance(text, dict):  # otherwise it's a list response which is not an error
+            statuscode = text.get('statusCode')
+            # errorCode may be deprecated by Auth0
+            if (statuscode and statuscode >= 400) or 'errorCode' in text:
+                raise Auth0Error(status_code=statuscode,
+                                 error_code=text.get('errorCode', ''),
+                                 message=text.get('message', ''))
+            elif not statuscode and text.get('error'):  # handle alternative authentication api
+                raise Auth0Error(
+                    status_code=statuscode,
+                    error_code=text['error'],
+                    message=text.get('error_description', text.get('message', ''))
+            )
 
         return text

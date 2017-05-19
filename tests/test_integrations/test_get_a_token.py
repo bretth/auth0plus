@@ -28,5 +28,13 @@ class TestGetAToken(unittest.TestCase):
         token = get_token(self.domain, self.client_id, self.secret_id)
         assert token['access_token']
 
+        #         {
+        #   "access_token":"eyJz93a...k4laUWw",
+        #   "refresh_token":"GEbRxBN...edjnXbL",
+        #   "id_token":"eyJ0XAi...4faeEoQ",
+        #   "token_type":"Bearer",
+        #   "expires_in":86400
+        # }
+
 
 

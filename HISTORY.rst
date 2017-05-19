@@ -2,6 +2,11 @@
 History
 =======
 
+0.3.1 (Unreleased)
+--------------------
+
+* Fix issue with new auth0 exception style
+
 0.3.0 (09-May-2017)
 --------------------
 

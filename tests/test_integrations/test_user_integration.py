@@ -32,7 +32,7 @@ class IntegrationTestCase(unittest.TestCase):
 class TestUserCreate(IntegrationTestCase):
 
     def setUp(self):
-        
+
         super(TestUserCreate, self).setUp()
         # delete any existing user
         url = 'https://%s/api/v2/users' % self.domain
@@ -93,4 +93,4 @@ class TestUserQuery(BaseTestWithUsers):
     def test_multiple_objects_returned(self):
         with self.assertRaises(MultipleObjectsReturned):
             self.auth0.users.get()
-        
+
