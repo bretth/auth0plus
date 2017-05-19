@@ -79,6 +79,6 @@ class RestClient(object):
                     status_code=statuscode,
                     error_code=text['error'],
                     message=text.get('error_description', text.get('message', ''))
-            )
+                )
 
         return text

@@ -6,6 +6,7 @@ History
 --------------------
 
 * Fix issue with new auth0 exception style
+* Support authentication api exceptions
 
 0.3.0 (09-May-2017)
 --------------------
