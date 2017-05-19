@@ -42,7 +42,7 @@ In your code import the Auth0 class.
     >>> from auth0plus.management import Auth0
     >>> from auth0plus.oauth import get_token
 
-This example doctest uses python-dotenv to hold the secrets and variables in a .env file. You can configure and run it your self with **make doctests**.
+This example doctest uses python-dotenv to hold the secrets and variables in a .env file. You can configure and run it yourself with **make doctests**.
 ::
     >>> import os
     >>> from dotenv import load_dotenv
