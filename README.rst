@@ -28,12 +28,12 @@ Usage
 
 We'll get started with the simplest scenario which is using Auth0 to store a database of users to authenticate against. For this you need to configure a domain and a non-interactive client to access a connection (database). You will also need a JSON web token (jwt) for the client application to access the parts of the api you specify (scopes). This can be generated manually or as I will show here it can be programmatically granted every 24 hours by a separate call to an oauth/token endpoint:
 
-- Login to auth0.com
-- Go to the `clients menu <https://manage.auth0.com/#/clients>`_
-- Create a client and click on it's settings to get the *Domain* *Client ID* and *Client Secret*
-- Go to the `APIs menu <https://manage.auth0.com/#/apis>`_ and click *Auth0 Management API*
-- Click *Non Interactive Clients* and authorise your client then expand the selection to select scopes.
-- Select read:users, update:users, delete:users, create:users, read:users_app_metadata, update:users_app_metadata, delete:users_app_metadata, create:users_app_metadata and create:user_tickets then *update*.
+1. Login to auth0.com
+2. Go to the `clients menu <https://manage.auth0.com/#/clients>`_
+3. Create a client and click on it's settings to get the *Domain* *Client ID* and *Client Secret*
+4. Go to the `APIs menu <https://manage.auth0.com/#/apis>`_ and click *Auth0 Management API*
+5. Click *Non Interactive Clients* and authorise your client then expand the selection to select scopes.
+6. Select read:users, update:users, delete:users, create:users, read:users_app_metadata, update:users_app_metadata, delete:users_app_metadata, create:users_app_metadata and create:user_tickets then *update*.
 
 For more information on the above process read `<https://auth0.com/docs/api/management/v2/tokens>`_.
 
